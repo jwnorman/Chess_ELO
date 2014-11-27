@@ -12,8 +12,7 @@ raw <- readLines('~/Desktop/Kaggle/ELO/data_uci.pgn')fish <- read.csv('~/Deskto
 
 # Extract Valuations
 moveScores <- fish$MoveScores
-moveScores.split <- strsplit(moveScores, " ")
-moveScores.unlisted <- unlist(moveScores.split)
+moveScores.unlisted <- unlist(strsplit(moveScores, " "))
 
 # Extract Information from PGN File
 ### Find the lines of each variable
@@ -51,5 +50,6 @@ wb <- unlist(lapply(1:length(events), function(x) {
 	wbitr <- rep(c("White", "Black"), len=gameLengths[x])
 }))
 data <- as.data.frame(cbind(events4df, wb, moveScores.unlisted, results4df, whiteELOs4df, blackELOs4df))
+names(data) <- c("Event", "WhoseMove", "Centipawns", "Result", "WhiteElo", "BlackElo")
 
 save(data, file='~/Desktop/Kaggle/ELO/ELO_df_1.Rda')
