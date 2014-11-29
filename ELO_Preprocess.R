@@ -33,7 +33,8 @@ gameLengths <- unlist(lapply(raw[moveLineNums], function(x) {
 		return(length(strsplit(x, " ")[[1]])-1) # minus 1 because the last string is the result of the game, not a move
 	}))
 
-### Put in variable form
+### Put in play by play form
+moves <- raw[moveLineNums]
 events <- events[eventLineNums]
 events4df <- rep(events, times=gameLengths)
 results <- results[resultLineNums]
@@ -49,7 +50,40 @@ blackELOs4df <- rep(blackELOs, times=gameLengths)
 wb <- unlist(lapply(1:length(events), function(x) {
 	wbitr <- rep(c("White", "Black"), len=gameLengths[x])
 }))
-data <- as.data.frame(cbind(events4df, wb, moveScores.unlisted, results4df, whiteELOs4df, blackELOs4df))
-names(data) <- c("Event", "WhoseMove", "Centipawns", "Result", "WhiteElo", "BlackElo")
 
-save(data, file='~/Desktop/Kaggle/ELO/ELO_df_1.Rda')
+# Create data frame for play by play data
+plays <- data.frame(Event=as.integer(events4df), 
+				    WhoseMove = as.character(wb),
+				    Centipawns = as.integer(moveScores.unlisted),
+				    Result = as.character(results4df),
+				    WhiteElo = as.integer(whiteELOs4df),
+				    BlackElo = as.integer(blackELOs4df))
+				   
+# Create data frame for game by game data
+games <- data.frame(Event=1:length(events),
+					Result=results,
+					WhiteElo = as.integer(whiteELOs),
+					BlackElo = as.integer(blackELOs),
+					GameLength = as.integer(gameLengths),
+					EloDiff = as.integer(whiteELOs) - as.integer(blackELOs),
+					Moves = as.character(moves),
+					Valuations = as.character(moveScores))
+					
+
+save(plays, file='~/Desktop/Kaggle/ELO/playbyplay.Rda')
+  # Event WhoseMove Centipawns  Result WhiteElo BlackElo
+# 1     1     White         18 1/2-1/2     2354     2411
+# 2     1     Black         17 1/2-1/2     2354     2411
+# 3     1     White         12 1/2-1/2     2354     2411
+# 4     1     Black          8 1/2-1/2     2354     2411
+# 5     1     White         -5 1/2-1/2     2354     2411
+# 6     1     Black         12 1/2-1/2     2354     2411
+
+save(games, file='~/Desktop/Kaggle/ELO/gamebygame.Rda')
+  # Event  Result WhiteElo BlackElo GameLength EloDiff Moves       		Valuations
+# 1     1 1/2-1/2     2354     2411         38 	   -57 g1f3 g8f6...   	18 17...
+# 2     2 1/2-1/2     2523     2460         13 		63 e2e4 e7e5...   	26 44...
+# 3     3     0-1     1915     1999        106 	   -84 e2e4 d7d5...   	26 51...
+# 4     4     1-0     2446     2191         77 	   255 g1f3 b8d7...   	21 5 ...
+# 5     5     1-0     2168     2075         49 		93 e2e4 c7c5...   	26 64...
+# 6     6 1/2-1/2     2437     2254         58 	   183 g1f3 d7d5...   	18 29...
