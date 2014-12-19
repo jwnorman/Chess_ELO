@@ -7,7 +7,8 @@ fish <- read.csv("stockfish.csv",
 			colClasses = c("integer", "character"))
 
 # Mac
-raw <- readLines('~/Desktop/Kaggle/ELO/data_uci.pgn')fish <- read.csv('~/Desktop/Kaggle/ELO/stockfish.csv', 
+raw <- readLines('~/Desktop/Kaggle/ELO/data_uci.pgn')
+fish <- read.csv('~/Desktop/Kaggle/ELO/stockfish.csv', 
 			colClasses = c("integer", "character"))
 
 # Extract Valuations
@@ -71,6 +72,8 @@ games <- data.frame(Event=1:length(events),
 					
 
 save(plays, file='~/Desktop/Kaggle/ELO/playbyplay.Rda')
+save(plays, file='C:/Kaggle/ELO/playbyplay.Rda')
+raw <- readLines("data_uci.pgn")
   # Event WhoseMove Centipawns  Result WhiteElo BlackElo
 # 1     1     White         18 1/2-1/2     2354     2411
 # 2     1     Black         17 1/2-1/2     2354     2411
@@ -80,6 +83,7 @@ save(plays, file='~/Desktop/Kaggle/ELO/playbyplay.Rda')
 # 6     1     Black         12 1/2-1/2     2354     2411
 
 save(games, file='~/Desktop/Kaggle/ELO/gamebygame.Rda')
+save(games, file='C:/Kaggle/ELO/gamebygame.Rda')
   # Event  Result WhiteElo BlackElo GameLength EloDiff Moves       		Valuations
 # 1     1 1/2-1/2     2354     2411         38 	   -57 g1f3 g8f6...   	18 17...
 # 2     2 1/2-1/2     2523     2460         13 		63 e2e4 e7e5...   	26 44...
