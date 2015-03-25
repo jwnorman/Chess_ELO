@@ -2,4 +2,5 @@
 *.Rda
 *.pgn
 *.game
-!mac_template.game # need this for converting .pgn to .game
+# need this for converting .pgn to .game
+!mac_template.game
