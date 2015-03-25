@@ -1,4 +1,4 @@
-Chess_ELO
+Chess Elo
 =========
 
 From a Kaggle competition dataset, I predict the ELO (chess rating system) of a player using data from only one game.
